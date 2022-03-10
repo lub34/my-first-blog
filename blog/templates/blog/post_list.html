@@ -1,63 +1,22 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Luke's blog</title>
-    </head>
-    <body>
-        <header>
-            <h1><a href="/">Luke's Blog</a></h1>
-        </header>
+{% extends 'blog/base.html' %} <!--Connects file to template in the provided local directory; TEMPLATE EXTENSIONS NEED TO BE AT TOP OF FILE-->
+{% load static %}
 
+<!--Putting content inside the "block content" braces is formatted like our template in 'base.html'-->
+{% block content %}
+{% for post in posts %} <!--NOTE: 'posts' is a QuerySet containing posts on the blog.-->
+    <article class="post">
+        <time class="date">published: {{ post.published_date }}</time>
         <!--
-        To display the QuerySet object stored in variable 'posts' from views.py
-        {{ posts }}
+        The href below is a Django template telling the compiler to anchor the h2 header
+        to a url linking to the site containing the post's details.
 
-        To iterate and present the title name's of each post:
-        {% for post in posts %}
-            {{ post }}
-        {% endfor %}
+        NOTE: The string after url tells the compiler what url in 'blog/urls.py' to go to,
+        and 'pk=post.pk' tells the compiler to use the .pk field of the post object
+        to pull said post's primary key, and store it as argument 'pk'.
         -->
-
-        {% for post in posts %}
-            <article>
-                <time>published: {{ post.published_date }}</time>
-                <h2><a href="">{{ post.title }}</a></h2>
-                <p>{{ post.text|linebreaksbr }}</p>
-            </article>
-        {% endfor %}
-            
-
-        <!--<article>
-            <time>published: 09.03.2022, 11:12</time>
-            <h2><a href="">My first post</a></h2>
-            <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        </article>
-
-        <article>
-            <time>published: 09.03.2022, 11:13</time>
-            <h2><a href="">My second post</a></h2>
-            <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut f.</p>
-        </article>-->
-    </body>
-</html>
-
-<!--
-    <h1>A heading</h1> for your most important heading
-    <h2>A sub-heading</h2> for a heading at the next level
-    <h3>A sub-sub-heading</h3> …and so on, up to <h6>
-    <p>A paragraph of text</p>
-    <em>text</em> emphasizes your text
-    <strong>text</strong> strongly emphasizes your text
-    <br> goes to another line (you can't put anything inside br and there's no closing tag)
-    <a href="https://djangogirls.org">link</a> creates a link
-    <ul><li>first item</li><li>second item</li></ul> makes a list, just like this one!
-    <div></div> defines a section of the page
-    <nav></nav> defines a set of navigation links
-    <article></article> specifies independent, self-contained content
-    <section></section> defines a section in a document
-    <header></header> specifies a header for a document or section
-    <main></main> specifies the main content of a document
-    <aside></aside> defines some content aside from the content it is placed in (like a sidebar)
-    <footer></footer> defines a footer for a document or section
-    <time></time> defines a specific time (or datetime)
--->
+        
+        <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+        <p>{{ post.text|linebreaksbr }}</p>
+    </article>
+{% endfor %}
+{% endblock %}
