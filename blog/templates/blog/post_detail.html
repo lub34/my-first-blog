@@ -2,6 +2,14 @@
 
 {% block content %}
     <article class="post">
+        <aside class="actions">
+            <!--Only let logged-in users see 'edit' button-->
+            {% if user.is_authenticated %}
+                <a class="btn btn-secondary" href="{% url 'post_edit' pk=post.pk %}">
+                    {% include './icons/pencil-fill.svg' %}
+                </a>
+            {% endif %}
+        </aside>
         {% if post.published_date  %} <!--Use Python to check if post's published_date field is empty or not-->
             <time class="date">
                 {{ post.published_date }}

@@ -10,6 +10,17 @@
     <body>
         <header class="page-header">
           <div class="container">
+              <!--Only show next <a> element to signed-in users-->
+              {% if user.is_authenticated %}
+                <!-- The following anchor links to the Django view "post_new"-->
+                <a href="{% url 'post_new' %}" class="top-menu">
+                    {% include './icons/file-earmark-plus.svg' %}
+                    <!-- The dot at the start of the directory path above is important
+                        b/c it tells the compiler to look in the working/active directory
+                        for the next step in the path (in this case, "look for the 'icons'
+                        folder in the working directory.")-->
+                </a>
+              {% endif %}
               <h1><a href="/">Luke's Blog</a></h1>
           </div>
         </header>
