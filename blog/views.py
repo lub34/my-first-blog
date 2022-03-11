@@ -1,4 +1,4 @@
-from msvcrt import kbhit # I think this line is an accident but afraid to delete
+# from msvcrt import kbhit # I think this line is an accident but afraid to delete
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.shortcuts import redirect
